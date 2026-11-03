@@ -87,6 +87,7 @@ object Store {
     fun init(ctx: Context) {
         sp = ctx.getSharedPreferences("baghdadi", Context.MODE_PRIVATE)
         Downloads.init(ctx)
+        ListCache.init(ctx)
         Panel.init(ctx)
         language = sp.getString("lang", "ar") ?: "ar"
         val u = sp.getString("user", null)
