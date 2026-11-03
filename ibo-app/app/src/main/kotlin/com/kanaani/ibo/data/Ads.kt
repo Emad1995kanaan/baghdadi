@@ -29,10 +29,34 @@ object Ads {
         private set
 
     private var loadedAt = 0L
+    /** Publicités reçues du panneau de contrôle : ads.json (GitHub) n'est plus lu. */
+    private var fromPanel = false
+
+    /** Panneau : "mix" (films + pubs), "movies", "ads", "none". */
+    var mode by mutableStateOf("mix")
+        private set
+    /** Nombre de derniers films ; films entre deux pubs. */
+    var movieCount by mutableIntStateOf(5)
+        private set
+    var every by mutableIntStateOf(3)
+        private set
+    /** Films choisis dans le panneau (image, titre, note). */
+    var pinned by mutableStateOf<List<Slide>>(emptyList())
+        private set
+
+    fun fromPanel(interval: Int, list: List<String>, mode: String = "mix", movies: Int = 5, every: Int = 3, pinned: List<Slide> = emptyList()) {
+        fromPanel = true
+        this.interval = interval.coerceIn(3, 120)
+        if (list != billboard) billboard = list
+        this.mode = mode
+        movieCount = movies.coerceIn(0, 30)
+        this.every = every.coerceIn(1, 10)
+        if (pinned != this.pinned) this.pinned = pinned
+    }
 
     suspend fun refresh() {
         val url = BuildConfig.ADS_URL
-        if (url.isBlank() || System.currentTimeMillis() - loadedAt < 10 * 60_000L) return
+        if (fromPanel || url.isBlank() || System.currentTimeMillis() - loadedAt < 10 * 60_000L) return
         val root = withContext(Dispatchers.IO) {
             runCatching {
                 // Paramètre horaire : contourne le cache du CDN (quelques minutes au plus).

@@ -26,6 +26,11 @@ val updateUrl = brand("BRAND_UPDATE_URL", "")
 val adsUrl = brand("BRAND_ADS_URL", "")
 // Clé TMDB (images et notes des films du panneau publicitaire) : secret TMDB_KEY.
 val tmdbKey = brand("BRAND_TMDB_KEY", "")
+// Messages instantanés (ntfy) : sujet secret (secret MSG_TOPIC). Panneau de contrôle.
+val msgServer = brand("BRAND_MSG_SERVER", "https://ntfy.sh")
+val msgTopic = brand("BRAND_MSG_TOPIC", "")
+val panelUrl = brand("BRAND_PANEL_URL", "")
+val panelApp = brand("BRAND_PANEL_APP", "")
 
 // Version : fichier VERSION à la racine du dépôt (x.y.z) → versionCode = x*10000 + y*100 + z.
 val versionName0: String = rootProject.file("../VERSION").readText().trim()
@@ -49,6 +54,10 @@ android {
         buildConfigField("String", "UPDATE_URL", javaString(updateUrl))
         buildConfigField("String", "ADS_URL", javaString(adsUrl))
         buildConfigField("String", "TMDB_KEY", javaString(tmdbKey))
+        buildConfigField("String", "MSG_SERVER", javaString(msgServer))
+        buildConfigField("String", "MSG_TOPIC", javaString(msgTopic))
+        buildConfigField("String", "PANEL_URL", javaString(panelUrl))
+        buildConfigField("String", "PANEL_APP", javaString(panelApp))
     }
 
     signingConfigs {

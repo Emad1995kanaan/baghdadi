@@ -87,10 +87,11 @@ object Store {
     fun init(ctx: Context) {
         sp = ctx.getSharedPreferences("baghdadi", Context.MODE_PRIVATE)
         Downloads.init(ctx)
+        Panel.init(ctx)
         language = sp.getString("lang", "ar") ?: "ar"
         val u = sp.getString("user", null)
         val p = sp.getString("pass", null)
-        session = if (!u.isNullOrEmpty() && p != null && Brand.host.isNotEmpty()) Xtream(Brand.hosts, u, p) else null
+        session = if (!u.isNullOrEmpty() && p != null && Brand.host.isNotEmpty()) Xtream(Panel.hosts(), u, p) else null
         favorites = decode(sp.getString("favorites", null))
         categoryOrders = listOf("live", "movie", "series").associateWith { k ->
             sp.getString("order_$k", null)?.split('\n')?.filter { it.isNotEmpty() }.orEmpty()

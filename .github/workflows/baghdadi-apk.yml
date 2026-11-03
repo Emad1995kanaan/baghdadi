@@ -54,11 +54,12 @@ jobs:
           BRAND_KEY_ALIAS: ${{ secrets.BRAND_KEY_ALIAS }}
           BRAND_KEY_PASSWORD: ${{ secrets.BRAND_KEY_PASSWORD }}
           TMDB_KEY: ${{ secrets.TMDB_KEY }}
+          MSG_TOPIC: ${{ secrets.MSG_TOPIC }}
         run: |
           chmod +x gradlew
           mkdir -p ../out
           VERSION=$(cat ../VERSION)
-          ./gradlew assembleRelease -PBRAND_TMDB_KEY="$TMDB_KEY" --console=plain --stacktrace
+          ./gradlew assembleRelease -PBRAND_TMDB_KEY="$TMDB_KEY" -PBRAND_MSG_TOPIC="$MSG_TOPIC" --console=plain --stacktrace
           for f in app/build/outputs/apk/release/*.apk; do
             abi=$(basename "$f" .apk | sed -E 's/^app-//; s/-release.*//')
             cp "$f" "../out/BAGHDADI-LITE-$VERSION-$abi.apk"
